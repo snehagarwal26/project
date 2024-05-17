@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <mat-toolbar color="primary">GitHub Repository Search</mat-toolbar>
+<div fxLayout="column" fxLayoutAlign="center center" class="search-container">
+  <mat-form-field>
+    <input matInput placeholder="GitHub Username" [(ngModel)]="username">
+  </mat-form-field>
+  <button mat-raised-button color="primary" (click)="searchRepos()">Search</button>
+</div>
+<app-repo-list [repos]="repos" *ngIf="repos"></app-repo-list>
+<mat-spinner *ngIf="loading"></mat-spinner>
+
+<div class="repo-list" *ngFor="let repo of repos">
+    <mat-card>
+      <mat-card-title>{{"https://github.com/snehagarwal26?tab=repositories"}}</mat-card-title>
+      <mat-card-content>
+        <p>{{skills: html, css, javascript, python }}</p>
+      </mat-card-content>
+      <mat-card-actions>
+        <a mat-button href="https://github.com/snehagarwal26" target="_blank">View on GitHub</a>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+</body>
+</html>

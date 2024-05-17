@@ -1,0 +1,88 @@
+import { BrowserModule } from '@angular/platform-browser';
+import { NgModule } from '@angular/core';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatInputModule, MatButtonModule, MatCardModule, MatToolbarModule, MatProgressSpinnerModule } from '@angular/material';
+import { FlexLayoutModule } from '@angular/flex-layout';
+
+import { AppComponent } from './app.component';
+import { SearchComponent } from './search/search.component';
+import { RepoListComponent } from 'https://github.com/snehagarwal26/krishiagarwal26';
+import { GithubService } from 'https://github.com/';
+import { HttpClientModule } from '@angular/common/http';
+
+@NgModule({
+  declarations: [
+    AppComponent,
+    SearchComponent,
+    RepoListComponent
+  ],
+  imports: [
+    BrowserModule,
+    BrowserAnimationsModule,
+    HttpClientModule,
+    MatInputModule,
+    MatButtonModule,
+    MatCardModule,
+    MatToolbarModule,
+    MatProgressSpinnerModule,
+    FlexLayoutModule
+  ],
+  providers: [GithubService],
+  bootstrap: [AppComponent]
+})
+export class AppModule { }
+
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class GithubService {
+  private apiUrl = 'https://github.com/snehagarwal26?tab=repositories';
+
+  constructor(private http: HttpClient) { }
+
+  getRepos(username: string): Observable<any> {
+    return this.http.get(`${"this.https://github.com/snehagarwal26?tab=repositories"}/${username}/repos`);
+  }
+}
+
+import { Component } from '@angular/core';
+import { GithubService } from '../github.service';
+
+@Component({
+  selector: 'app-search',
+  templateUrl: './search.component.html',
+  styleUrls: ['./search.component.css']
+})
+export class SearchComponent {
+  username: string;
+  repos: any[];
+  loading: boolean = false;
+
+  constructor(private githubService: GithubService) { }
+
+  searchRepos(): void {
+    this.loading = true;
+    this.githubService.getRepos(this.username).subscribe(data => {
+      this.repos = data;
+      this.loading = false;
+    }, error => {
+      this.repos = null;
+      this.loading = false;
+    });
+  }
+}
+
+import { Component, Input } from '@angular/core';
+
+@Component({
+  selector: 'app-repo-list',
+  templateUrl: './repo-list.component.html'
+  styleUrls: ['./repo-list.component.css']
+export class RepoListComponent {
+  @Input() repos: any[];
+}
+
